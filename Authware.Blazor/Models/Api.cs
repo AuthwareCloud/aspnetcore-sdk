@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Authware.Models;
+namespace Authware.Blazor.Models;
 
 /// <summary>
 ///     Represents an API that has been added to your application, this contains the name of your API and the ID, this can

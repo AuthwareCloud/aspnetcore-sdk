@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Authware.Models;
+namespace Authware.Blazor.Models;
 
 /// <summary>
 ///     Represents a <see cref="BaseResponse" /> but includes new or modified data for your application to update with

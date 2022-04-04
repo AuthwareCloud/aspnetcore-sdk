@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Authware.Models;
+namespace Authware.Blazor.Models;
 
 /// <summary>
 ///     Represents the currently authenticated users profile

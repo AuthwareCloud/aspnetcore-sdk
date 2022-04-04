@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Authware.Models;
+namespace Authware.Blazor.Models;
 
 /// <summary>
 ///     Represents a response from an executed API
@@ -10,7 +10,7 @@ namespace Authware.Models;
 public class ApiResponse
 {
     /// <summary>
-    ///     The message from the Authware API
+    ///     The message from the Authware.Blazor API
     /// </summary>
     [JsonProperty("message")]
     public string? Message { get; set; }

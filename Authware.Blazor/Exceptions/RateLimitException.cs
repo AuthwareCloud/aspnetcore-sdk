@@ -1,7 +1,7 @@
 using System;
-using Authware.Models;
+using Authware.Blazor.Models;
 
-namespace Authware.Exceptions;
+namespace Authware.Blazor.Exceptions;
 
 /// <summary>
 ///     Throws when you have been ratelimited

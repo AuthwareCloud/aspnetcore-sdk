@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Authware.Models;
+namespace Authware.Blazor.Models;
 
 /// <summary>
 ///     Represents a variable from either an application or a role

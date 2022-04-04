@@ -1,10 +1,10 @@
 using System;
-using Authware.Models;
+using Authware.Blazor.Models;
 
-namespace Authware.Exceptions;
+namespace Authware.Blazor.Exceptions;
 
 /// <summary>
-///     Thrown when an exception relating to the response of the Authware API was received.
+///     Thrown when an exception relating to the response of the Authware.Blazor API was received.
 /// </summary>
 public class AuthwareException : Exception
 {

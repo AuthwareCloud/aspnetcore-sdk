@@ -5,26 +5,23 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Authware.Exceptions;
-using Authware.Models;
+using Authware.Blazor.Exceptions;
+using Authware.Blazor.Models;
 using Newtonsoft.Json;
 
-namespace Authware;
+namespace Authware.Blazor;
 
-internal class Requester
+public sealed class Requester
 {
     /// <summary>
     ///     This is the <see cref="HttpClient" /> the <see cref="Requester" /> uses to make HTTP Requests
     /// </summary>
-    internal readonly HttpClient Client;
+    private readonly IHttpClientFactory _factory;
 
-    /// <summary>
-    ///     This is for internal use,
-    ///     it sets the HttpClient to be a base url for api.authware.org and adds certificate validation to prevent forgery
-    /// </summary>
-    internal Requester()
+    private HttpClient CreateClient(string? authToken = null)
     {
-        Client = new HttpClient(new HttpClientHandler
+        var client = _factory.CreateClient("authware");
+        client = new HttpClient(new HttpClientHandler
         {
             UseProxy = false,
             Proxy = null,
@@ -35,20 +32,25 @@ internal class Requester
         {
             BaseAddress = new Uri("https://api.authware.org")
         };
-        Client.DefaultRequestHeaders.TryAddWithoutValidation("X-Authware-App-Version",
+        if (authToken is not null)
+        {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+        }
+        client.DefaultRequestHeaders.TryAddWithoutValidation("X-Authware-App-Version",
             Assembly.GetEntryAssembly()?.GetName().Version.ToString());
-        Client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Authware-DotNet",
+        client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Authware-DotNet",
             Assembly.GetAssembly(typeof(AuthwareApplication)).GetName().Version.ToString()));
+
+        return client;
     }
 
     /// <summary>
-    ///     Makes a new instance of the Requester class which holds an <see cref="HttpClient" /> and wraps around it giving you
-    ///     easier access make requests and parse the responses to C# models
+    ///     This is for internal use,
+    ///     it sets the HttpClient to be a base url for api.authware.org and adds certificate validation to prevent forgery
     /// </summary>
-    /// <param name="client">The <see cref="HttpClient" /> to use for making HTTP requests</param>
-    public Requester(HttpClient client)
+    internal Requester(IHttpClientFactory factory)
     {
-        Client = client;
+        _factory = factory;
     }
 
     /// <summary>
@@ -70,12 +72,13 @@ internal class Requester
     ///     or there was an error with the request
     /// </exception>
     /// <remarks>
-    ///     This class is meant to be used with the Authware wrapper it is only exposed for ease of use for users of the
+    ///     This class is meant to be used with the Authware.Blazor wrapper it is only exposed for ease of use for users of the
     ///     wrapper.
-    ///     It is discouraged to use this to make requests as the exceptions it throws does specify Authware issues
+    ///     It is discouraged to use this to make requests as the exceptions it throws does specify Authware.Blazor issues
     /// </remarks>
-    internal async Task<T> Request<T>(HttpMethod method, string url, object? postData)
+    internal async Task<T> Request<T>(HttpMethod method, string url, object? postData, string? authToken = null)
     {
+        using var client = CreateClient(authToken);
         using var request = new HttpRequestMessage(method, url);
         request.Headers.TryAddWithoutValidation("X-Request-DateTime",
             DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString());
@@ -83,7 +86,7 @@ internal class Requester
             request.Content = new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8,
                 "application/json");
 
-        using var response = await Client.SendAsync(request).ConfigureAwait(false);
+        using var response = await client.SendAsync(request).ConfigureAwait(false);
         var content = await response.Content.ReadAsStringAsync();
 
         try
@@ -112,21 +115,21 @@ internal class Requester
 
             var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(content);
             if (errorResponse?.Code == BaseResponse.ResponseStatus.UpdateRequired)
-                throw new UpdateRequiredException(response.Headers.GetValues("X-Authware-Updater-URL").First(),
+                throw new UpdateRequiredException(response.Headers.GetValues("X-Authware.Blazor-Updater-URL").First(),
                     errorResponse);
             throw new AuthwareException(errorResponse);
         }
         catch (NullReferenceException e)
         {
             throw new Exception(
-                "A non success status code was returned from the Authware API. " +
-                "While attempting to parse an error response from the Authware API another exception occured", e);
+                "A non success status code was returned from the Authware.Blazor API. " +
+                "While attempting to parse an error response from the Authware.Blazor API another exception occured", e);
         }
         catch (JsonReaderException e)
         {
             throw new Exception(
-                "A non success status code was returned from the Authware API. " +
-                "While attempting to parse an error response from the Authware API another exception occured", e);
+                "A non success status code was returned from the Authware.Blazor API. " +
+                "While attempting to parse an error response from the Authware.Blazor API another exception occured", e);
         }
     }
 }

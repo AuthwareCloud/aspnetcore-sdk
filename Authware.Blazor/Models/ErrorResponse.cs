@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Authware.Models;
+namespace Authware.Blazor.Models;
 
 /// <summary>
-///     Represents an exception thrown by the Authware API
+///     Represents an exception thrown by the Authware.Blazor API
 /// </summary>
 public class ErrorResponse : BaseResponse
 {
@@ -16,7 +16,7 @@ public class ErrorResponse : BaseResponse
     public string? Trace { get; set; }
 
     /// <summary>
-    ///     A list of errors that were thrown by the Authware API, these are commonly data validation errors
+    ///     A list of errors that were thrown by the Authware.Blazor API, these are commonly data validation errors
     /// </summary>
     [JsonProperty("errors")]
     public List<string>? Errors { get; set; }
