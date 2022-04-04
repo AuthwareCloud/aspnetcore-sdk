@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Authware.AspNetCore.Models;
 
@@ -11,7 +11,7 @@ public class AuthResponse
     ///     The Authware.AspNetCore authentication token returned from the API, this can be used to authorize Authware.AspNetCore API requests for
     ///     your application
     /// </summary>
-    [JsonProperty("auth_token")]
+    [JsonPropertyName("auth_token")]
     public string AuthToken { get; set; }
 
     public override string ToString()

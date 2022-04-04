@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Authware.AspNetCore.Exceptions;
 using Authware.AspNetCore.Models;
-using Newtonsoft.Json;
 
 namespace Authware.AspNetCore;
 
@@ -48,7 +48,7 @@ public sealed class Requester
     ///     This is for internal use,
     ///     it sets the HttpClient to be a base url for api.authware.org and adds certificate validation to prevent forgery
     /// </summary>
-    internal Requester(IHttpClientFactory factory)
+    public Requester(IHttpClientFactory factory)
     {
         _factory = factory;
     }
@@ -83,7 +83,7 @@ public sealed class Requester
         request.Headers.TryAddWithoutValidation("X-Request-DateTime",
             DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString());
         if (postData is not null)
-            request.Content = new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8,
+            request.Content = new StringContent(JsonSerializer.Serialize(postData), Encoding.UTF8,
                 "application/json");
 
         using var response = await client.SendAsync(request).ConfigureAwait(false);
@@ -92,9 +92,9 @@ public sealed class Requester
         try
         {
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<T>(content)!;
+                return JsonSerializer.Deserialize<T>(content)!;
         }
-        catch (JsonReaderException e)
+        catch (JsonException e)
         {
             throw new Exception("There was an error when parsing the response from the authware api. \n" +
                                 "The code returned from the api was a success status code. \n" +
@@ -110,10 +110,10 @@ public sealed class Requester
                 var retryAfter = response.Headers.RetryAfter.Delta!.Value;
                 if (content.Contains("<")) throw new RateLimitException(null, retryAfter);
 
-                throw new RateLimitException(JsonConvert.DeserializeObject<ErrorResponse>(content), retryAfter);
+                throw new RateLimitException(JsonSerializer.Deserialize<ErrorResponse>(content), retryAfter);
             }
 
-            var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(content);
+            var errorResponse = JsonSerializer.Deserialize<ErrorResponse>(content);
             if (errorResponse?.Code == BaseResponse.ResponseStatus.UpdateRequired)
                 throw new UpdateRequiredException(response.Headers.GetValues("X-Authware.AspNetCore-Updater-URL").First(),
                     errorResponse);
@@ -125,7 +125,7 @@ public sealed class Requester
                 "A non success status code was returned from the Authware.AspNetCore API. " +
                 "While attempting to parse an error response from the Authware.AspNetCore API another exception occured", e);
         }
-        catch (JsonReaderException e)
+        catch (JsonException e)
         {
             throw new Exception(
                 "A non success status code was returned from the Authware.AspNetCore API. " +

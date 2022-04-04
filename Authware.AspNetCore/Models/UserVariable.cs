@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+
 
 namespace Authware.AspNetCore.Models;
 
@@ -10,6 +11,6 @@ public class UserVariable : Variable
     /// <summary>
     ///     If true, the signed-in user can edit and delete this variable
     /// </summary>
-    [JsonProperty("can_user_edit")]
+    [JsonPropertyName("can_user_edit")]
     public bool CanUserEdit { get; set; }
 }

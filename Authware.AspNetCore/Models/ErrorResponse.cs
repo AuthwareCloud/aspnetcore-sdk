@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 
 namespace Authware.AspNetCore.Models;
 
@@ -12,13 +13,13 @@ public class ErrorResponse : BaseResponse
     /// <summary>
     ///     If the error was 500 this is the trace for the error
     /// </summary>
-    [JsonProperty("trace")]
+    [JsonPropertyName("trace")]
     public string? Trace { get; set; }
 
     /// <summary>
     ///     A list of errors that were thrown by the Authware.AspNetCore API, these are commonly data validation errors
     /// </summary>
-    [JsonProperty("errors")]
+    [JsonPropertyName("errors")]
     public List<string>? Errors { get; set; }
 
     /// <summary>

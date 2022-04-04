@@ -1,5 +1,6 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 
 namespace Authware.AspNetCore.Models;
 
@@ -11,19 +12,19 @@ public class Role
     /// <summary>
     ///     The ID of the role
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
     /// <summary>
     ///     The name of the role
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
     ///     The variables that the role possesses
     /// </summary>
-    [JsonProperty("variables")]
+    [JsonPropertyName("variables")]
     public Variable[]? Variables { get; set; }
 
     public override string ToString()

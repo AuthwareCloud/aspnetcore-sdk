@@ -1,5 +1,6 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 
 namespace Authware.AspNetCore.Models;
 
@@ -11,14 +12,14 @@ public class Session
     /// <summary>
     ///     The ID of the session
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
     /// <summary>
     ///     The date the session was created
     /// </summary>
 
-    [JsonProperty("date_created")]
+    [JsonPropertyName("date_created")]
     public DateTime DateCreated { get; set; }
 
     public override string ToString()

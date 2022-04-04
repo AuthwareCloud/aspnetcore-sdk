@@ -1,5 +1,6 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 
 namespace Authware.AspNetCore.Models;
 
@@ -12,12 +13,12 @@ public class Api
     /// <summary>
     ///     The ID of your API
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
     /// <summary>
     ///     The friendly name of your API
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 }

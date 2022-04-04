@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+
 
 namespace Authware.AspNetCore.Models;
 
@@ -11,6 +12,6 @@ public class UpdatedDataResponse<TData> : BaseResponse
     /// <summary>
     ///     The new or modified data
     /// </summary>
-    [JsonProperty("new_data")]
+    [JsonPropertyName("new_data")]
     public TData NewData { get; set; }
 }

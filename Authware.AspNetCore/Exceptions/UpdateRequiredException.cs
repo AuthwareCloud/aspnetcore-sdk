@@ -5,7 +5,7 @@ namespace Authware.AspNetCore.Exceptions;
 /// <summary>
 ///     This is thrown when your application needs an update
 /// </summary>
-public class UpdateRequiredException : AuthwareException
+public sealed class UpdateRequiredException : AuthwareException
 {
     /// <summary>
     ///     Constructs an instance of the update required exception

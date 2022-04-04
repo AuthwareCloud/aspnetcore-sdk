@@ -6,7 +6,7 @@ namespace Authware.AspNetCore.Exceptions;
 /// <summary>
 ///     Throws when you have been ratelimited
 /// </summary>
-public class RateLimitException : AuthwareException
+public sealed class RateLimitException : AuthwareException
 {
     /// <summary>
     ///     This is how long you should wait before trying the request again

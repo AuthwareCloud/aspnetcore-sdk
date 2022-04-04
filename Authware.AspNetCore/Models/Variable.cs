@@ -1,4 +1,5 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 
 namespace Authware.AspNetCore.Models;
 
@@ -10,13 +11,13 @@ public class Variable
     /// <summary>
     ///     The key of the variable
     /// </summary>
-    [JsonProperty("key")]
+    [JsonPropertyName("key")]
     public string Key { get; set; }
 
     /// <summary>
     ///     The value of the variable
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public string Value { get; set; }
 
     /// <summary>

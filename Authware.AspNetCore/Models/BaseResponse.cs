@@ -1,5 +1,6 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 
 namespace Authware.AspNetCore.Models;
 
@@ -153,13 +154,13 @@ public class BaseResponse
     /// <summary>
     ///     The HTTP status code of the response
     /// </summary>
-    [JsonProperty("code")]
+    [JsonPropertyName("code")]
     public ResponseStatus Code { get; set; }
 
     /// <summary>
     ///     The message from the Authware.AspNetCore API
     /// </summary>
-    [JsonProperty("message")]
+    [JsonPropertyName("message")]
     public string? Message { get; set; }
 
     /// <summary>

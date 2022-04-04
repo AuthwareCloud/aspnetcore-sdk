@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using Authware.AspNetCore.Models;
+using Authware.AspNetCore.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Authware.AspNetCore;
@@ -21,8 +24,30 @@ public static class ExtensionMethods
         var config = new AuthwareConfiguration();
         configuration(config);
 
-        services.AddScoped<Requester>();
+        services.AddSingleton<Requester>();
 
-        return services.AddScoped(x => new AuthwareApplication(config.AppId, x.GetRequiredService<Requester>()));
+        return services.AddSingleton(x => new AuthwareApplication(config.AppId, x.GetRequiredService<Requester>()));
+    }
+
+    /// <summary>
+    /// Converts a <see cref="Profile"/> to a <see cref="AuthwareClaimsPrincipal"/> for usage with ASP.NET Core's default authorization scheme
+    /// </summary>
+    /// <param name="profile">The profile to convert</param>
+    /// <returns>The claims principal of the profile</returns>
+    public static AuthwareClaimsPrincipal ConvertToClaimsPrincipal(this Profile profile)
+    {
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.Email, profile.Email),
+            new(ClaimTypes.NameIdentifier, profile.Username),
+            new(ClaimTypes.Name, profile.Username)
+        };
+
+        if (profile.Role is not null)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, profile.Role.Name));
+        }
+
+        return new AuthwareClaimsPrincipal(new ClaimsIdentity(claims), profile);
     }
 }
