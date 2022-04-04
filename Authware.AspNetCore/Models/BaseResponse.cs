@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Authware.Blazor.Models;
+namespace Authware.AspNetCore.Models;
 
 /// <summary>
 ///     The base response, all responses inherit from this class
@@ -85,12 +85,12 @@ public class BaseResponse
         MissingRolePermissions = 13,
 
         /// <summary>
-        ///     The data submitted is not acceptable by Authware.Blazor, the validation errors are present in the Errors array
+        ///     The data submitted is not acceptable by Authware.AspNetCore, the validation errors are present in the Errors array
         /// </summary>
         ValidationError = 14,
 
         /// <summary>
-        ///     The Authware.Blazor API encountered an exception whilst processing the request, you should report this to us
+        ///     The Authware.AspNetCore API encountered an exception whilst processing the request, you should report this to us
         /// </summary>
         InternalServerError = 15,
 
@@ -157,7 +157,7 @@ public class BaseResponse
     public ResponseStatus Code { get; set; }
 
     /// <summary>
-    ///     The message from the Authware.Blazor API
+    ///     The message from the Authware.AspNetCore API
     /// </summary>
     [JsonProperty("message")]
     public string? Message { get; set; }

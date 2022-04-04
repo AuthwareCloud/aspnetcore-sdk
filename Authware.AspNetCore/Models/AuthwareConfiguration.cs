@@ -1,4 +1,4 @@
-﻿namespace Authware.Blazor.Models;
+﻿namespace Authware.AspNetCore.Models;
 
 public class AuthwareConfiguration
 {

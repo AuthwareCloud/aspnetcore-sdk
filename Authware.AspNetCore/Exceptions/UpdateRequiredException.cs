@@ -1,6 +1,6 @@
-using Authware.Blazor.Models;
+using Authware.AspNetCore.Models;
 
-namespace Authware.Blazor.Exceptions;
+namespace Authware.AspNetCore.Exceptions;
 
 /// <summary>
 ///     This is thrown when your application needs an update

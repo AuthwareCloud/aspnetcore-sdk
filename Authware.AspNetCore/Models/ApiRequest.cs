@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Authware.Blazor.Models;
+namespace Authware.AspNetCore.Models;
 
 /// <summary>
 ///     Represents a previous request made by a user for a specific API

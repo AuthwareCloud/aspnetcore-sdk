@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Authware.Blazor.Models;
+namespace Authware.AspNetCore.Models;
 
 /// <summary>
 ///     Represents the authentication token returned by a successful authentication request
@@ -8,7 +8,7 @@ namespace Authware.Blazor.Models;
 public class AuthResponse
 {
     /// <summary>
-    ///     The Authware.Blazor authentication token returned from the API, this can be used to authorize Authware.Blazor API requests for
+    ///     The Authware.AspNetCore authentication token returned from the API, this can be used to authorize Authware.AspNetCore API requests for
     ///     your application
     /// </summary>
     [JsonProperty("auth_token")]

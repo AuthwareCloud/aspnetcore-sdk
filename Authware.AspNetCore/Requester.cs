@@ -5,11 +5,11 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Authware.Blazor.Exceptions;
-using Authware.Blazor.Models;
+using Authware.AspNetCore.Exceptions;
+using Authware.AspNetCore.Models;
 using Newtonsoft.Json;
 
-namespace Authware.Blazor;
+namespace Authware.AspNetCore;
 
 public sealed class Requester
 {
@@ -72,9 +72,9 @@ public sealed class Requester
     ///     or there was an error with the request
     /// </exception>
     /// <remarks>
-    ///     This class is meant to be used with the Authware.Blazor wrapper it is only exposed for ease of use for users of the
+    ///     This class is meant to be used with the Authware.AspNetCore wrapper it is only exposed for ease of use for users of the
     ///     wrapper.
-    ///     It is discouraged to use this to make requests as the exceptions it throws does specify Authware.Blazor issues
+    ///     It is discouraged to use this to make requests as the exceptions it throws does specify Authware.AspNetCore issues
     /// </remarks>
     internal async Task<T> Request<T>(HttpMethod method, string url, object? postData, string? authToken = null)
     {
@@ -115,21 +115,21 @@ public sealed class Requester
 
             var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(content);
             if (errorResponse?.Code == BaseResponse.ResponseStatus.UpdateRequired)
-                throw new UpdateRequiredException(response.Headers.GetValues("X-Authware.Blazor-Updater-URL").First(),
+                throw new UpdateRequiredException(response.Headers.GetValues("X-Authware.AspNetCore-Updater-URL").First(),
                     errorResponse);
             throw new AuthwareException(errorResponse);
         }
         catch (NullReferenceException e)
         {
             throw new Exception(
-                "A non success status code was returned from the Authware.Blazor API. " +
-                "While attempting to parse an error response from the Authware.Blazor API another exception occured", e);
+                "A non success status code was returned from the Authware.AspNetCore API. " +
+                "While attempting to parse an error response from the Authware.AspNetCore API another exception occured", e);
         }
         catch (JsonReaderException e)
         {
             throw new Exception(
-                "A non success status code was returned from the Authware.Blazor API. " +
-                "While attempting to parse an error response from the Authware.Blazor API another exception occured", e);
+                "A non success status code was returned from the Authware.AspNetCore API. " +
+                "While attempting to parse an error response from the Authware.AspNetCore API another exception occured", e);
         }
     }
 }

@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Authware.Blazor.Exceptions;
-using Authware.Blazor.Models;
+using Authware.AspNetCore.Exceptions;
+using Authware.AspNetCore.Models;
 
-namespace Authware.Blazor;
+namespace Authware.AspNetCore;
 
 /// <summary>
-///     The main Authware.Blazor application class, this contains all of the functions that can be used to interact with
+///     The main Authware.AspNetCore application class, this contains all of the functions that can be used to interact with
 ///     the
-///     Authware.Blazor API
+///     Authware.AspNetCore API
 /// </summary>
 public sealed class AuthwareApplication
 {
@@ -39,7 +39,7 @@ public sealed class AuthwareApplication
     public Application? ApplicationInformation { get; private set; }
 
     /// <summary>
-    ///     Initializes and checks the ID passed in against the Authware.Blazor API to make sure the application is properly
+    ///     Initializes and checks the ID passed in against the Authware.AspNetCore API to make sure the application is properly
     ///     setup and
     ///     enabled
     /// </summary>
@@ -219,7 +219,7 @@ public sealed class AuthwareApplication
     ///     invalid
     /// </exception>
     /// <exception cref="AuthwareException">
-    ///     Thrown if the data provided is not acceptable by the Authware.Blazor API, the license
+    ///     Thrown if the data provided is not acceptable by the Authware.AspNetCore API, the license
     ///     was not valid or the application is disabled
     /// </exception>
     public async Task<BaseResponse> RegisterAsync(string username, string password, string email, string token)
@@ -245,10 +245,10 @@ public sealed class AuthwareApplication
 
     // I don't like how this method looks split it up maybe? possibly make a separate method for authenticating with token to get the profile? 
     /// <summary>
-    ///     Authenticates a user against the Authware.Blazor API with the provided username and password and caches the
-    ///     Authware.Blazor
+    ///     Authenticates a user against the Authware.AspNetCore API with the provided username and password and caches the
+    ///     Authware.AspNetCore
     ///     authentication token if successful
-    ///     If the user has logged in before it will check the cached Authware.Blazor authentication token and if the token is
+    ///     If the user has logged in before it will check the cached Authware.AspNetCore authentication token and if the token is
     ///     invalid
     ///     it will authenticate with the username and password
     /// </summary>
@@ -261,7 +261,7 @@ public sealed class AuthwareApplication
     /// </exception>
     /// <exception cref="ArgumentNullException">If the username or password is null this exception is thrown</exception>
     /// <exception cref="AuthwareException">
-    ///     Thrown if the data provided is not acceptable by the Authware.Blazor API, the hardware ID did not match (if
+    ///     Thrown if the data provided is not acceptable by the Authware.AspNetCore API, the hardware ID did not match (if
     ///     enabled), the
     ///     application version is out-of-date (if enabled) or the username and password are invalid
     /// </exception>
@@ -312,7 +312,7 @@ public sealed class AuthwareApplication
     /// </exception>
     /// <exception cref="ArgumentNullException">Throws if either password or email is null</exception>
     /// <exception cref="AuthwareException">
-    ///     Thrown if the data provided is not acceptable by the Authware.Blazor API, the hardware ID did not match (if
+    ///     Thrown if the data provided is not acceptable by the Authware.AspNetCore API, the hardware ID did not match (if
     ///     enabled), the
     ///     application version is out-of-date (if enabled) or the password is invalid
     /// </exception>
@@ -342,7 +342,7 @@ public sealed class AuthwareApplication
     /// </exception>
     /// <exception cref="ArgumentNullException">Throws if either currentPassword or newPassword is null</exception>
     /// <exception cref="AuthwareException">
-    ///     Thrown if the data provided is not acceptable by the Authware.Blazor API, the hardware ID did not match (if
+    ///     Thrown if the data provided is not acceptable by the Authware.AspNetCore API, the hardware ID did not match (if
     ///     enabled), the
     ///     application version is out-of-date (if enabled) or the password is invalid
     /// </exception>
@@ -380,7 +380,7 @@ public sealed class AuthwareApplication
     /// </exception>
     /// <exception cref="ArgumentNullException">Throws if the API ID is null</exception>
     /// <exception cref="AuthwareException">
-    ///     Thrown if the data provided is not acceptable by the Authware.Blazor API, the hardware ID did not match (if
+    ///     Thrown if the data provided is not acceptable by the Authware.AspNetCore API, the hardware ID did not match (if
     ///     enabled), the
     ///     application version is out-of-date (if enabled), the API does not exist or the user does not have the required role
     ///     to execute it and if the API execution was not successful.

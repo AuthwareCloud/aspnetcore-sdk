@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Authware.Blazor.Models;
+namespace Authware.AspNetCore.Models;
 
 /// <summary>
 ///     Represents a role that the authenticated user may posses

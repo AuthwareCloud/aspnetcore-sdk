@@ -1,8 +1,8 @@
 ﻿using System;
-using Authware.Blazor.Models;
+using Authware.AspNetCore.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Authware.Blazor;
+namespace Authware.AspNetCore;
 
 public static class ExtensionMethods
 {
