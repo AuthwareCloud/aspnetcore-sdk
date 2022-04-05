@@ -275,7 +275,7 @@ public sealed class AuthwareApplication
                 new {app_id = _applicationId, username, password})
             .ConfigureAwait(false);
         var profileResponse =
-            await _requester.Request<Profile>(HttpMethod.Get, "user/profile", null).ConfigureAwait(false);
+            await _requester.Request<Profile>(HttpMethod.Get, "user/profile", null, authResponse.AuthToken).ConfigureAwait(false);
 
         return (authResponse, profileResponse);
     }

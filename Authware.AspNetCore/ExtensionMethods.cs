@@ -39,8 +39,10 @@ public static class ExtensionMethods
         var claims = new List<Claim>
         {
             new(ClaimTypes.Email, profile.Email),
-            new(ClaimTypes.NameIdentifier, profile.Username),
-            new(ClaimTypes.Name, profile.Username)
+            new(ClaimTypes.NameIdentifier, profile.Id.ToString()),
+            new(ClaimTypes.Name, profile.Username),
+            new(ClaimTypes.AuthenticationMethod, "Authware"),
+            new(ClaimTypes.Webpage, "https://authware.org")
         };
 
         if (profile.Role is not null)
@@ -48,6 +50,6 @@ public static class ExtensionMethods
             claims.Add(new Claim(ClaimTypes.Role, profile.Role.Name));
         }
 
-        return new AuthwareClaimsPrincipal(new ClaimsIdentity(claims), profile);
+        return new AuthwareClaimsPrincipal(claims, profile);
     }
 }
