@@ -7,7 +7,7 @@
         <PackageId>Authware.AspNetCore</PackageId>
         <Title>Authware API wrapper for ASP.NET Core</Title>
         <Authors>Authware Technologies</Authors>
-        <Description>Authware wrapper for ASP.NET Core (netstandard2.0)</Description>
+        <Description>Authware wrapper for ASP.NET Core (netstandard2.1)</Description>
         <Copyright>Copyright 2022 (C) Authware Technologies</Copyright>
         <PackageDescription>Authware wrapper for ASP.NET Core (netstandard2.0)</PackageDescription>
         <Summary>Authware wrapper for ASP.NET Core (netstandard2.0)</Summary>
