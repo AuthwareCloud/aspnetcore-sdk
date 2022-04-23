@@ -1,10 +1,7 @@
-using System;
-using Authware.AspNetCore.Models;
-
 namespace Authware.AspNetCore.Exceptions;
 
 /// <summary>
-///     Thrown when an exception relating to the response of the Authware.AspNetCore API was received.
+///     Thrown when an exception relating to the response of the Authware API was received.
 /// </summary>
 public class AuthwareException : Exception
 {

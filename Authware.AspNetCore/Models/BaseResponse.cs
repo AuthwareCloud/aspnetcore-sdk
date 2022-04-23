@@ -1,7 +1,3 @@
-using System;
-using System.Text.Json.Serialization;
-
-
 namespace Authware.AspNetCore.Models;
 
 /// <summary>
@@ -9,6 +5,13 @@ namespace Authware.AspNetCore.Models;
 /// </summary>
 public class BaseResponse
 {
+    [JsonConstructor]
+    public BaseResponse(ResponseStatus code, string? message = null)
+    {
+        Message = message;
+        Code = code;
+    }
+
     /// <summary>
     ///     Contains every error code that can be thrown by the API as an enum
     /// </summary>
@@ -155,13 +158,13 @@ public class BaseResponse
     ///     The HTTP status code of the response
     /// </summary>
     [JsonPropertyName("code")]
-    public ResponseStatus Code { get; set; }
+    public ResponseStatus Code { get; }
 
     /// <summary>
     ///     The message from the Authware.AspNetCore API
     /// </summary>
     [JsonPropertyName("message")]
-    public string? Message { get; set; }
+    public string? Message { get; }
 
     /// <summary>
     ///     Auto property that defines whether a request was successful based on the response code

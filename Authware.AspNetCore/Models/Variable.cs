@@ -1,6 +1,3 @@
-using System.Text.Json.Serialization;
-
-
 namespace Authware.AspNetCore.Models;
 
 /// <summary>
@@ -8,17 +5,24 @@ namespace Authware.AspNetCore.Models;
 /// </summary>
 public class Variable
 {
+    [JsonConstructor]
+    public Variable(string key, string value)
+    {
+        Key = key;
+        Value = value;
+    }
+
     /// <summary>
     ///     The key of the variable
     /// </summary>
     [JsonPropertyName("key")]
-    public string Key { get; set; }
+    public string Key { get; }
 
     /// <summary>
     ///     The value of the variable
     /// </summary>
     [JsonPropertyName("value")]
-    public string Value { get; set; }
+    public string Value { get; }
 
     /// <summary>
     ///     This is mostly used for deconstructing types to a tuple

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text.Json.Serialization;
-
-
-namespace Authware.AspNetCore.Models;
+﻿namespace Authware.AspNetCore.Models;
 
 /// <summary>
 ///     Represents an API that has been added to your application, this contains the name of your API and the ID, this can
@@ -10,6 +6,13 @@ namespace Authware.AspNetCore.Models;
 /// </summary>
 public class Api
 {
+    [JsonConstructor]
+    public Api(Guid id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
+
     /// <summary>
     ///     The ID of your API
     /// </summary>

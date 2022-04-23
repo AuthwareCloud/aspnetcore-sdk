@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-
-
 namespace Authware.AspNetCore.Models;
 
 /// <summary>
@@ -10,6 +5,14 @@ namespace Authware.AspNetCore.Models;
 /// </summary>
 public class ErrorResponse : BaseResponse
 {
+    [JsonConstructor]
+    public ErrorResponse(string? trace, ResponseStatus code, string? message = null, List<string>? errors = null) :
+        base(code, message)
+    {
+        Trace = trace;
+        Errors = errors;
+    }
+
     /// <summary>
     ///     If the error was 500 this is the trace for the error
     /// </summary>

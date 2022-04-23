@@ -1,6 +1,3 @@
-using System;
-using Authware.AspNetCore.Models;
-
 namespace Authware.AspNetCore.Exceptions;
 
 /// <summary>

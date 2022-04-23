@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Authware.AspNetCore.Exceptions;
-using Authware.AspNetCore.Models;
-
 namespace Authware.AspNetCore;
 
 /// <summary>

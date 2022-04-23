@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using Authware.AspNetCore.Models;
-using Authware.AspNetCore.Utils;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Authware.AspNetCore;
+﻿namespace Authware.AspNetCore;
 
 public static class ExtensionMethods
 {
@@ -30,7 +23,8 @@ public static class ExtensionMethods
     }
 
     /// <summary>
-    /// Converts a <see cref="Profile"/> to a <see cref="AuthwareClaimsPrincipal"/> for usage with ASP.NET Core's default authorization scheme
+    ///     Converts a <see cref="Profile" /> to a <see cref="AuthwareClaimsPrincipal" /> for usage with ASP.NET Core's default
+    ///     authorization scheme
     /// </summary>
     /// <param name="profile">The profile to convert</param>
     /// <returns>The claims principal of the profile</returns>
@@ -45,10 +39,7 @@ public static class ExtensionMethods
             new(ClaimTypes.Webpage, "https://authware.org")
         };
 
-        if (profile.Role is not null)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, profile.Role.Name));
-        }
+        if (profile.Role is not null) claims.Add(new Claim(ClaimTypes.Role, profile.Role.Name));
 
         return new AuthwareClaimsPrincipal(claims, profile);
     }
