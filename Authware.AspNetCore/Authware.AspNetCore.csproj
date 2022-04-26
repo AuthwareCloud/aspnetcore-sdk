@@ -25,7 +25,7 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>authware.snk</AssemblyOriginatorKeyFile>
         <PublicSign>true</PublicSign>
-        <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+        <PackageReleaseNotes>Fix issues relating to ratelimiting</PackageReleaseNotes>
         <ApplicationIcon>authware-s.ico</ApplicationIcon>
         <PackageIcon>authware-s.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
