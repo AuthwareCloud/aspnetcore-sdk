@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Authware.AspNetCore;
 
 public sealed class Requester
@@ -85,16 +87,16 @@ public sealed class Requester
         }
         catch (JsonException e)
         {
-            throw new Exception("There was an error when parsing the response from the authware api. \n" +
-                                "The code returned from the api was a success status code. \n" +
-                                "Api responses most likely changed and you need to update the the wrapper to fix this error. \n" +
-                                "The response from the api was. \n" +
+            throw new Exception("There was an error when parsing the response from the Authware API. \n" +
+                                "The code returned from the API was a success status code. \n" +
+                                "API responses have most likely changed and you need to update the the SDK in-order to fix this issue. \n" +
+                                "The response from the API was: \n" +
                                 $"{content} \n", e);
         }
 
         try
         {
-            if ((int) response.StatusCode == 429)
+            if (response.StatusCode == HttpStatusCode.TooManyRequests)
             {
                 var retryAfter = response.Headers.RetryAfter.Delta!.Value;
                 if (content.Contains("<")) throw new RateLimitException(null, retryAfter);
@@ -111,14 +113,14 @@ public sealed class Requester
         catch (NullReferenceException e)
         {
             throw new Exception(
-                "A non success status code was returned from the Authware.AspNetCore API. " +
-                "While attempting to parse an error response from the Authware.AspNetCore API another exception occured", e);
+                "A non success status code was returned from the Authware API. " +
+                "While attempting to parse an error response from the Authware API another exception occured", e);
         }
         catch (JsonException e)
         {
             throw new Exception(
-                "A non success status code was returned from the Authware.AspNetCore API. " +
-                "While attempting to parse an error response from the Authware.AspNetCore API another exception occured", e);
+                "A non success status code was returned from the Authware API. " +
+                "While attempting to parse an error response from the Authware API another exception occured", e);
         }
     }
 }
