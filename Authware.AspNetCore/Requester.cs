@@ -21,12 +21,14 @@ public sealed class Requester
                 certificate2.IssuerName.Name.Contains(", O=Let's Encrypt, C=US")
         })
         {
-            BaseAddress = new Uri("https://api.authware.org")
+#if DEBUG
+            BaseAddress = new Uri("http://localhost:44303/")
+#else
+            BaseAddress = new Uri("https://api.authware.org/")
+#endif
         };
         if (authToken is not null)
-        {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
-        }
         client.DefaultRequestHeaders.TryAddWithoutValidation("X-Authware-App-Version",
             Assembly.GetEntryAssembly()?.GetName().Version.ToString());
         client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Authware-DotNet",
@@ -63,7 +65,8 @@ public sealed class Requester
     ///     or there was an error with the request
     /// </exception>
     /// <remarks>
-    ///     This class is meant to be used with the Authware.AspNetCore wrapper it is only exposed for ease of use for users of the
+    ///     This class is meant to be used with the Authware.AspNetCore wrapper it is only exposed for ease of use for users of
+    ///     the
     ///     wrapper.
     ///     It is discouraged to use this to make requests as the exceptions it throws does specify Authware.AspNetCore issues
     /// </remarks>
@@ -106,7 +109,8 @@ public sealed class Requester
 
             var errorResponse = JsonSerializer.Deserialize<ErrorResponse>(content);
             if (errorResponse?.Code == BaseResponse.ResponseStatus.UpdateRequired)
-                throw new UpdateRequiredException(response.Headers.GetValues("X-Authware.AspNetCore-Updater-URL").First(),
+                throw new UpdateRequiredException(
+                    response.Headers.GetValues("X-Authware.AspNetCore-Updater-URL").First(),
                     errorResponse);
             throw new AuthwareException(errorResponse);
         }
