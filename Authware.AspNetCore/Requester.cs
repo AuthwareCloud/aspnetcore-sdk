@@ -9,7 +9,7 @@ public sealed class Requester
     /// </summary>
     private readonly IHttpClientFactory _factory;
 
-    private HttpClient CreateClient(string? authToken = null)
+    private HttpClient CreateClient(string? authToken = null, bool isApiKey = false)
     {
         var client = _factory.CreateClient("authware");
         client = new HttpClient(new HttpClientHandler
@@ -27,8 +27,12 @@ public sealed class Requester
             BaseAddress = new Uri("https://api.authware.org/")
 #endif
         };
-        if (authToken is not null)
+        
+        if (authToken is not null && !isApiKey)
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+        else if (isApiKey && authToken is not null)
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", authToken);
+        
         client.DefaultRequestHeaders.TryAddWithoutValidation("X-Authware-App-Version",
             Assembly.GetEntryAssembly()?.GetName().Version.ToString());
         client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Authware-DotNet",
@@ -54,6 +58,8 @@ public sealed class Requester
     /// <param name="method">The HTTP method you want to make the request with</param>
     /// <param name="url">The URL you want to request data from</param>
     /// <param name="postData">Any data you want to post in the JSON body of the request</param>
+    /// <param name="authToken">The authentication token to use when authorizing a request</param>
+    /// <param name="isApiKey">Whether the authentication token provided is an API key or not</param>
     /// <typeparam name="T">The type you want to deserialize from JSON to</typeparam>
     /// <returns>The parsed class you specified in the generic parameter</returns>
     /// <exception cref="AuthwareException">
@@ -70,7 +76,7 @@ public sealed class Requester
     ///     wrapper.
     ///     It is discouraged to use this to make requests as the exceptions it throws does specify Authware.AspNetCore issues
     /// </remarks>
-    internal async Task<T> Request<T>(HttpMethod method, string url, object? postData, string? authToken = null)
+    internal async Task<T> Request<T>(HttpMethod method, string url, object? postData, string? authToken = null, bool isApiKey = false)
     {
         using var client = CreateClient(authToken);
         using var request = new HttpRequestMessage(method, url);
