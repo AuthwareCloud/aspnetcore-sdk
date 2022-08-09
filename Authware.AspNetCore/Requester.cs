@@ -27,11 +27,17 @@ public sealed class Requester
             BaseAddress = new Uri("https://api.authware.org/")
 #endif
         };
-        
+
         if (authToken is not null && !isApiKey)
+        {
+            client.DefaultRequestHeaders.Remove("Authorization");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+        }
         else if (isApiKey && authToken is not null)
+        {
+            client.DefaultRequestHeaders.Remove("Authorization");
             client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", authToken);
+        }
         
         client.DefaultRequestHeaders.TryAddWithoutValidation("X-Authware-App-Version",
             Assembly.GetEntryAssembly()?.GetName().Version.ToString());
