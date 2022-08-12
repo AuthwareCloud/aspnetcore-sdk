@@ -21,11 +21,12 @@ public sealed class Requester
                 certificate2.IssuerName.Name.Contains(", O=Let's Encrypt, C=US")
         })
         {
-#if DEBUG
-            BaseAddress = new Uri("http://localhost:44303/")
-#else
+// #if DEBUG
+//             BaseAddress = new Uri("http://localhost:44303/")
+// #else
+//             BaseAddress = new Uri("https://api.authware.org/")
+// #endif
             BaseAddress = new Uri("https://api.authware.org/")
-#endif
         };
 
         if (authToken is not null && !isApiKey)
@@ -84,7 +85,7 @@ public sealed class Requester
     /// </remarks>
     internal async Task<T> Request<T>(HttpMethod method, string url, object? postData, string? authToken = null, bool isApiKey = false)
     {
-        using var client = CreateClient(authToken);
+        using var client = CreateClient(authToken, isApiKey);
         using var request = new HttpRequestMessage(method, url);
         request.Headers.TryAddWithoutValidation("X-Request-DateTime",
             DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString());
